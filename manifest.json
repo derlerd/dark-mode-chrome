@@ -3,7 +3,7 @@
   "version": "1.0",
   "description": "This extension implements a simple dark mode for web pages.",
   "content_security_policy": "default-src 'self'",
-  "permissions": ["storage","activeTab", "tabs", "<all_urls>"],
+  "permissions": ["storage", "tabs", "<all_urls>"],
   "browser_action": {
     "default_icon": {
       "16": "images/dark-mode-16.png",

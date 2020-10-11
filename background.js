@@ -11,10 +11,24 @@ chrome.browserAction.onClicked.addListener(function() {
   chrome.storage.sync.get('active', handle_click);
 });
 
-// Handler for install event. Turns off dark mode and updates all tabs.
+// Handler for install event.
 function handle_install() {
   update_action_text(false);
-  update_tabs();
+  
+  // Content scripts are not injected in existing tabs. To this 
+  // end we manually inject them in the existing tabs.
+  reload_content_script();
+}
+
+// Iterates over all currently open tabs and re-injects the content
+// scripts. 
+function reload_content_script() {
+  chrome.tabs.query({"windowType": "normal"}, function(tabs) {
+    tabs.forEach(function(tab) {
+      execute(tab.id, tab.url, {"file": "./blacklist.js"});
+      execute(tab.id, tab.url, {"file": "./invert.js"});
+    });
+  });
 }
 
 // Handler for startup event. Updates the action text according to 
@@ -40,18 +54,23 @@ function update_tabs() {
   });
 }
 
-// Helper function that calls the `invert` function on the page referenced
-// by tabId, passing `url` as a parameter. If the url starts with `chrome://`
-// or is empty it does nothing.
+// Calls the `invert` function on the page referenced by tabId, passing `url` 
+// as a parameter. If the url starts with `chrome://` or is empty it does 
+// nothing.
 function execute_inversion(tabId, url) {
+  execute(tabId, url, {"code": "invert();"});
+}
+
+// Executes the `script` relative to `tabId` and `url`. 
+function execute(tabId, url, script) {
   if(url.startsWith("chrome://") || url == "") {
     return;
   }
-  chrome.tabs.executeScript(tabId, {"code" : "invert();" });
+  chrome.tabs.executeScript(tabId, script);
 }
 
-// Helper function that updates the badge on the action icon and 
-// sets the persisted status according to `active`.
+// Updates the badge on the action icon and sets the persisted status according 
+// to `active`.
 function update_action_text(active) {
   if(active) {
     chrome.browserAction.setBadgeText({"text": "ON"});

@@ -6,5 +6,6 @@ var dark_mode_blacklist =
    "https://duckduckgo.com",
 
    // Pages looking odd with currently injected style.
-   "https://developer.chrome.com/", 
+   "https://developer.chrome.com/",
+   "https://groups.google.com/",  
   ];

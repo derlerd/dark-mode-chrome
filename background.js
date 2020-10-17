@@ -44,21 +44,13 @@ function handle_click(data) {
   update_tabs();
 }
 
-// Iterates over all tabs and calls `execute_inversion` with the appropriate 
-// parameters.
+// Iterates over all tabs and executes `invert();` on them.
 function update_tabs() {
   chrome.tabs.query({"windowType": "normal"}, function(tabs) {
     tabs.forEach(function(tab) {
-      execute_inversion(tab.id, tab.url);
+      execute(tab.id, tab.url, {"code": "invert();"});
     });
   });
-}
-
-// Calls the `invert` function on the page referenced by tabId, passing `url` 
-// as a parameter. If the url starts with `chrome://` or is empty it does 
-// nothing.
-function execute_inversion(tabId, url) {
-  execute(tabId, url, {"code": "invert();"});
 }
 
 // Executes the `script` relative to `tabId` and `url`. 

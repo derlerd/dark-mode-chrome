@@ -3,7 +3,7 @@
 A Chrome extension providing a dark mode. Clicking the extension icon will switch between dark and light mode. When dark mode is switched on, a `style` element containing 
 ```css
 img, html { 
-  -webkit-filter: invert(90%); 
+  -webkit-filter: invert(); 
 }
 ```
 is injected into all currently open tabs. It is removed again when dark mode is switched off. New tabs will automatically use the currently active mode. 

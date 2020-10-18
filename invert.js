@@ -5,17 +5,17 @@ invert();
 function invert() {
   // Inject the style for dark mode or removes it depending on `dark`
   let set_mode = function(dark) {
-    var tag_id = 'dark-mode-' + chrome.runtime.id;
+    let tag_id = 'dark-mode-' + chrome.runtime.id;
 
-    var old = document.getElementById(tag_id);
+    let old = document.getElementById(tag_id);
     if(old !== null && old.localName === "style") {
       old.remove();
     } 
 
     if(dark) {
-      var css = 'img, html { -webkit-filter: invert(); }';
+      let css = 'img, html { -webkit-filter: invert(); }';
 
-      var style = document.createElement('style');
+      let style = document.createElement('style');
       style.type = 'text/css';
       style.id = tag_id;
       style.appendChild(document.createTextNode(css));

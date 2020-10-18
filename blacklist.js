@@ -1,4 +1,4 @@
-var dark_mode_blacklist = 
+let dark_mode_blacklist = 
   [
    // Pages that already have a dark mode.
    "https://www.youtube.com",

@@ -4,7 +4,7 @@ invert();
 // the mode depending on the `active` variable.
 function invert() {
   // Inject the style for dark mode or removes it depending on `dark`
-  let set_mode = function(dark) {
+  const set_mode = function(dark) {
     let tag_id = 'dark-mode-' + chrome.runtime.id;
 
     let old = document.getElementById(tag_id);
@@ -25,7 +25,7 @@ function invert() {
   }
 
   // Checks whether the given page is on the black list.
-  let is_blacklisted = function(page) {
+  const is_blacklisted = function(page) {
     for (const item of dark_mode_blacklist) {
       if(page.startsWith(item)) {
         return true;

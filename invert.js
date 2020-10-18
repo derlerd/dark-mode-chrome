@@ -3,6 +3,37 @@ invert();
 // Checks whether the page is on the black list. If not, it sets 
 // the mode depending on the `active` variable.
 function invert() {
+  // Inject the style for dark mode or removes it depending on `dark`
+  let set_mode = function(dark) {
+    var tag_id = 'dark-mode-' + chrome.runtime.id;
+
+    var old = document.getElementById(tag_id);
+    if(old !== null && old.localName === "style") {
+      old.remove();
+    } 
+
+    if(dark) {
+      var css = 'img, html { -webkit-filter: invert(); }';
+
+      var style = document.createElement('style');
+      style.type = 'text/css';
+      style.id = tag_id;
+      style.appendChild(document.createTextNode(css));
+
+      document.head.appendChild(style);
+    }
+  }
+
+  // Checks whether the given page is on the black list.
+  let is_blacklisted = function(page) {
+    for (const item of dark_mode_blacklist) {
+      if(page.startsWith(item)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   if(is_blacklisted(window.location.toString())) {
     return;
   }
@@ -12,33 +43,6 @@ function invert() {
   });
 }
 
-// Inject the style for dark mode or removes it depending on `dark`
-function set_mode(dark) {
-  var tag_id = 'dark-mode-' + chrome.runtime.id;
 
-  var old = document.getElementById(tag_id);
-  if(old !== null && old.localName === "style") {
-    old.remove();
-  } 
 
-  if(dark) {
-    var css = 'img, html { -webkit-filter: invert(); }';
 
-    var style = document.createElement('style');
-    style.type = 'text/css';
-    style.id = tag_id;
-    style.appendChild(document.createTextNode(css));
-
-    document.head.appendChild(style);
-  }
-}
-
-// Checks whether the given page is on the black list.
-function is_blacklisted(page) {
-  for (const item of dark_mode_blacklist) {
-    if(page.startsWith(item)) {
-      return true;
-    }
-  }
-  return false;
-}

@@ -17,7 +17,7 @@ function set_mode(dark) {
   var tag_id = 'dark-mode-' + chrome.runtime.id;
 
   var old = document.getElementById(tag_id);
-  if(old != null && old.localName == "style") {
+  if(old !== null && old.localName === "style") {
     old.remove();
   } 
 

@@ -25,8 +25,9 @@ function handle_install() {
 function reload_content_script() {
   chrome.tabs.query({"windowType": "normal"}, function(tabs) {
     tabs.forEach(function(tab) {
-      execute(tab.id, tab.url, {"file": "./blacklist.js"});
-      execute(tab.id, tab.url, {"file": "./invert.js"});
+      execute(tab.id, tab.url, {"file": "./blacklist.js"}, function() { 
+      	execute(tab.id, tab.url, {"file": "./invert.js"}); 
+      });
     });
   });
 }
@@ -54,11 +55,11 @@ function update_tabs() {
 }
 
 // Executes the `script` relative to `tabId` and `url`. 
-function execute(tabId, url, script) {
+function execute(tabId, url, script, callback) {
   if(url.startsWith("chrome://") || url == "") {
     return;
   }
-  chrome.tabs.executeScript(tabId, script);
+  chrome.tabs.executeScript(tabId, script, callback);
 }
 
 // Updates the badge on the action icon and sets the persisted status according 
